@@ -1,5 +1,5 @@
 import styles from "./Home.module.css"
-import { Pokemon } from "components/Pokemon"
+import { Pokemon } from "../../components/Pokemon"
 
 export const Home = () => {
   return (
