@@ -7,30 +7,39 @@ import { PokemonInfo } from './pokemon';
   selector: 'app-root',
   imports: [RouterOutlet, Pokemon],
   template: `
-  <div class=.intro>
-    <div>Bienvenue sur ton futur pokédex !</div>
+  <div>
+    <div class=.intro>
+      <div>Bienvenue sur ton futur pokédex !</div>
       <div>Tu vas pouvoir apprendre tout ce qu'il faut sur Angular et attraper des pokemons !</div>
-    <pokemon [pokemonInfo] = "carapuceInfo"/>
-    <pokemon [pokemonInfo] = "carabaffeInfo"/>
-    <pokemon [pokemonInfo] = "tortankInfo"/>
+    </div>
+    <form>
+      <input type="text" placeholder="Filter by Pokemon name" />
+      <button class="primary" type="button">Search</button>
+    </form>
+    @for (pokemonInfo of pokemonInfoList; track $index){
+      <pokemon [pokemonInfo] = "pokemonInfo"/>
+    }
   </div>
   `,
   styleUrls: ['./app.css']
 })
 export class App {
   protected readonly title = signal('frontend-angular');
-  carapuceInfo: PokemonInfo = {
-    name: "Carapuce",
-    id: 7,
-  };
-  carabaffeInfo: PokemonInfo = {
-    name: "Carabaffe",
-    id: 8,
-  };
-  tortankInfo: PokemonInfo = {
-    name: "Tortank",
-    id: 9,
-  };
+  pokemonInfoList : PokemonInfo[] = [
+
+    {
+      name: "Carapuce",
+      id: 7,
+    },
+    {
+      name: "Carabaffe",
+      id: 8,
+    },
+    {
+      name: "Tortank",
+      id: 9,
+    }
+  ];
   
 }
 
