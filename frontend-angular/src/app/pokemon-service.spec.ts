@@ -1,0 +1,24 @@
+import { TestBed } from '@angular/core/testing';
+
+import { PokemonService } from './pokemon-service';
+
+describe('PokemonService', () => {
+  let service: PokemonService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(PokemonService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should return carapuce in full list', () => {
+    expect(service.getFullPokemonList()).toContainEqual({name: 'Carapuce', id: 7})
+  });
+
+  it('should return something with id 7', () => {
+    expect(service.getPokemonById(7)).toBeDefined()
+  })
+});

@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {Pokemon} from './pokemon/pokemon';
+import { Pokemon } from './pokemon/pokemon';
 import { PokemonInfo } from './pokemon';
+import { PokemonService } from './pokemon-service';
 
 @Component({
   selector: 'app-root',
@@ -25,22 +26,12 @@ import { PokemonInfo } from './pokemon';
 })
 export class App {
   protected readonly title = signal('frontend-angular');
-  pokemonInfoList : PokemonInfo[] = [
+  pokemonInfoList: PokemonInfo[] = []
+  pokemonService: PokemonService = inject(PokemonService)
 
-    {
-      name: "Carapuce",
-      id: 7,
-    },
-    {
-      name: "Carabaffe",
-      id: 8,
-    },
-    {
-      name: "Tortank",
-      id: 9,
-    }
-  ];
-  
+  constructor() {
+    this.pokemonInfoList = this.pokemonService.getFullPokemonList();
+  }
 }
 
 
