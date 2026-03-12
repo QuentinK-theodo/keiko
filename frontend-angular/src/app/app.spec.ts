@@ -15,7 +15,7 @@ describe('App', () => {
   });
 
   it('should display carapuce', async () => {
-    const fixture = TestBed.createComponent(Pokemon);
+    const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('div')?.textContent).toContain('Carapuce');
