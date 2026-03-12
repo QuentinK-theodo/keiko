@@ -6,28 +6,17 @@ import { PokemonInfo } from './pokemon';
 })
 export class PokemonService {
 
-    pokemonInfoList : PokemonInfo[] = [
+  backend_base_url = 'http://localhost:8000';
 
-    {
-      name: "Carapuce",
-      id: 7,
-    },
-    {
-      name: "Carabaffe",
-      id: 8,
-    },
-    {
-      name: "Tortank",
-      id: 9,
-    }
-  ];
-
-  getFullPokemonList(): PokemonInfo[] {
-    return this.pokemonInfoList
+  async getFullPokemonList(): Promise<PokemonInfo[]> {
+    const data = await fetch(`${this.backend_base_url}/pokemons`)
+    return (await data.json()) ?? [];
   }
-
-  getPokemonById(id: number): PokemonInfo | undefined {
-    return this.pokemonInfoList.find((pokemonInfo) => pokemonInfo.id === id);
+  
+  async getPokemonById(id: number): Promise<PokemonInfo | undefined> {
+    const data = await fetch(`${this.backend_base_url}/pokemon/${id}`)
+    const pokemonJson = await data.json();
+    return pokemonJson ?? {};
   }
 
 }
