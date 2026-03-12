@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Pokemon } from './pokemon';
+import { PokemonInfo } from '../pokemon';
 
 describe('Pokemon', () => {
   let component: Pokemon;
@@ -13,6 +14,7 @@ describe('Pokemon', () => {
 
     fixture = TestBed.createComponent(Pokemon);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('pokemonInfo', { name : "Carapuce", id: 7})
     await fixture.whenStable();
   });
 
