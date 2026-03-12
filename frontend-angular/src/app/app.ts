@@ -23,7 +23,6 @@ export class Pokemon {
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Pokemon],
-  // templateUrl: './app.html',
   template: `
     <pokemon />
   `,
