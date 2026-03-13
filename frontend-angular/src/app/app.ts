@@ -9,7 +9,7 @@ import { PokemonService } from './pokemon-service';
   imports: [RouterOutlet, Pokemon],
   template: `
   <div>
-    <div class=.intro>
+    <div class="intro">
       <div>Bienvenue sur ton futur pokédex !</div>
       <div>Tu vas pouvoir apprendre tout ce qu'il faut sur Angular et attraper des pokemons !</div>
     </div>

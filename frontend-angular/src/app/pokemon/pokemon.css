@@ -1,0 +1,7 @@
+.pokemon {
+  font-family: 'PokemonGB';
+  border-style: double;
+  border-color: black;
+  margin: 5em;
+  text-align: center;
+}
