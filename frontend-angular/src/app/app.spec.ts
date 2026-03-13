@@ -1,10 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
+import { PokemonService } from './pokemon-service';
+
+class MockPokemonService {
+  getFullPokemonList = () => {
+    return new Promise(resolve => resolve([
+      { id: 1, name: "Carapuce", height: 7, weight: 69 },
+      { id: 2, name: "ivysaur", height: 10, weight: 130 }
+    ]))
+  }
+}
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [
+        {provide: PokemonService, useClass: MockPokemonService}
+      ]
     }).compileComponents();
   });
 
