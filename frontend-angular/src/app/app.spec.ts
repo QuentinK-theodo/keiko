@@ -5,7 +5,7 @@ import { PokemonService } from './pokemon-service';
 class MockPokemonService {
   getFullPokemonList = () => {
     return new Promise(resolve => resolve([
-      { id: 1, name: "Carapuce", height: 7, weight: 69 },
+      { id: 1, name: "squirtle", height: 7, weight: 69 },
       { id: 2, name: "ivysaur", height: 10, weight: 130 }
     ]))
   }
