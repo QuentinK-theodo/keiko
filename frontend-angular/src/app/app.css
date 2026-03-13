@@ -12,3 +12,8 @@
   border-color: rgb(118, 118, 118);
   border-image: initial;
 }
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
