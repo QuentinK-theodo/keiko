@@ -14,7 +14,11 @@ describe('PokemonService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return carapuce in full list', async () => {
+  it('should return squirtle in full list', async () => {
     await expect(service.getFullPokemonList()).resolves.toContainEqual({name: 'squirtle', id: 7, height: 5, weight: 90});
+  });
+
+  it('should return squirtle details', async () => {
+    await expect(service.getPokemonById(7)).resolves.toEqual({name: 'squirtle', id: 7, height: 5, weight: 90});
   });
 });

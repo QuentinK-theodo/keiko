@@ -13,4 +13,9 @@ export class PokemonService {
     return (await data.json()) ?? [];
   }
 
+  async getPokemonById(id: Number): Promise<PokemonInfo> {
+    const data = await fetch(`${this.backend_base_url}/pokemon/${id}`)
+    return (await data.json()) ?? {};
+  }
+
 }
