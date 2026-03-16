@@ -16,21 +16,21 @@ import { Loader } from './loader/loader';
       <div>Bienvenue sur ton futur pokédex !</div>
       <div>Tu vas pouvoir apprendre tout ce qu'il faut sur Angular et attraper des pokemons !</div>
     </div>
-    @if (isLoading) {
-      <app-loader />
-    } @else {
-      <div class="container">
-      @if (isPokemonListLoaded) {
-        @for (pokemonInfo of pokemonInfoList; track $index){
-          <pokemon [pokemonInfo] = "pokemonInfo"/>
-        }
+    <div class="container">
+      @if (isLoading) {
+        <app-loader />
       } @else {
-        <div class="error">
-          Failed to load Pokemon list
-        </div>
+        @if (isPokemonListLoaded) {
+          @for (pokemonInfo of pokemonInfoList; track $index){
+            <pokemon [pokemonInfo] = "pokemonInfo"/>
+          }
+        } @else {
+          <div class="error">
+            Failed to load Pokemon list
+          </div>
+        }
       }
-      </div>
-    }
+    </div>
   </div>
   `,
   styleUrls: ['./app.css']
@@ -52,7 +52,6 @@ export class App {
       this.isPokemonListLoaded = true;
       this.changeDetectorRef.markForCheck();
     }).catch(() => {
-      console.log("Failed to load!")
       this.isLoading = false;
       this.isPokemonListLoaded = false;
       this.changeDetectorRef.markForCheck();
