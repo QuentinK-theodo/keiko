@@ -17,3 +17,9 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.error {
+  margin: auto;
+  text-align: center;
+  color: red;
+}
