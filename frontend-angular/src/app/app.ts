@@ -19,15 +19,13 @@ import { Loader } from './loader/loader';
     <div class="container">
       @if (isLoading) {
         <app-loader />
+      } @else if (hasError) {
+        <div class="error">
+          Failed to load Pokemon list
+        </div>
       } @else {
-        @if (isPokemonListLoaded) {
-          @for (pokemonInfo of pokemonInfoList; track $index){
-            <pokemon [pokemonInfo] = "pokemonInfo"/>
-          }
-        } @else {
-          <div class="error">
-            Failed to load Pokemon list
-          </div>
+        @for (pokemonInfo of pokemonInfoList; track $index){
+          <pokemon [pokemonInfo] = "pokemonInfo"/>
         }
       }
     </div>
@@ -43,17 +41,17 @@ export class App {
   pokemonService: PokemonService = inject(PokemonService)
   
   isLoading: boolean = true
-  isPokemonListLoaded: boolean = true
+  hasError: boolean = false
 
   ngOnInit() {
     this.pokemonService.getFullPokemonList().then((pokemonInfoList: PokemonInfo[]) => {
       this.pokemonInfoList = pokemonInfoList;
       this.isLoading = false;
-      this.isPokemonListLoaded = true;
+      this.hasError = false;
       this.changeDetectorRef.markForCheck();
     }).catch(() => {
       this.isLoading = false;
-      this.isPokemonListLoaded = false;
+      this.hasError = true;
       this.changeDetectorRef.markForCheck();
     })
   }
