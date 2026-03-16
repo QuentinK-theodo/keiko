@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-loader',
   imports: [],
   template: `
-  <div>
+  <div class="loader">
     <img src="/loading.svg"/>
   </div>
   `,
