@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PokemonService } from '../pokemon-service';
 import { PokemonInfo } from '../pokemon';
@@ -9,9 +9,9 @@ import { Loader } from '../loader/loader';
   imports: [Loader],
   template: `
   <div class="details">
-    @if (isLoading) {
+    @if (isLoading()) {
       <app-loader />
-    } @else if(hasError) {
+    } @else if(hasError()) {
       <div class="error">
         Failed to load Pokemon details
       </div>
@@ -39,10 +39,10 @@ export class PokemonDetail {
 
   route: ActivatedRoute = inject(ActivatedRoute);
 
-  isLoading = true;
-  hasError = false;
+  isLoading: WritableSignal<boolean> = signal(true);
+  hasError: WritableSignal<boolean> = signal(false);
   
-  pokemonId = -1;
+  pokemonId: number|null = null;
   pokemonInfo: PokemonInfo | null = null;
   pokemonService: PokemonService = inject(PokemonService)
   
@@ -51,15 +51,20 @@ export class PokemonDetail {
   }
 
   ngOnInit() {
-    this.pokemonService.getPokemonById(this.pokemonId).then((pokemonInfoRecieved: PokemonInfo) => {
-        this.pokemonInfo = pokemonInfoRecieved;
-        this.isLoading = false;
-        this.hasError = false;
-        this.changeDetectorRef.markForCheck()
-    }).catch(() => {
-      this.isLoading = false;
-      this.hasError = true;
-      this.changeDetectorRef.markForCheck()
-    })
+    if (this.pokemonId) {
+      this.pokemonService.getPokemonById(this.pokemonId).subscribe(
+        {
+          next: (pokemonInfo) => {
+            this.pokemonInfo = pokemonInfo
+            this.isLoading.set(false)
+            this.hasError.set(false)
+          },
+          error: () => {
+            this.isLoading.set(false)
+            this.hasError.set(true)
+          }
+        }
+      )
+    }
   }
 }

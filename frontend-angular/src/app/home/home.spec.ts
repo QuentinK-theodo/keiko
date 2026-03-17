@@ -3,67 +3,74 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Home } from './home';
 import { PokemonService } from '../pokemon-service';
 import { provideRouter } from '@angular/router';
+import { Observable } from 'rxjs';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { PokemonInfo } from '../pokemon';
+import { backend_base_url } from '../app.config';
 
 
 class MockPokemonService {
-  getFullPokemonList = async () => {
-    return Promise.resolve([
-      { id: 1, name: "squirtle", height: 7, weight: 69 },
-      { id: 2, name: "ivysaur", height: 10, weight: 130 }
-    ])
-  }
-}
-
-class MockPokemonServiceFail {
-  getFullPokemonList = async () => {
-    return Promise.reject(Error("Testing fails"))
+  getFullPokemonList = () => {
+    return new Observable((subscriber) => {
+      subscriber.next(
+        [
+          { id: 1, name: "squirtle", height: 7, weight: 69 },
+          { id: 2, name: "ivysaur", height: 10, weight: 130 }
+        ]
+      )
+    })
   }
 }
 
 describe('Home', () => {
   let component: Home;
   let fixture: ComponentFixture<Home>;
+  let httpMock: HttpTestingController
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Home],
+      providers: [
+        provideRouter([]),
+        provideHttpClientTesting(),
+        PokemonService
+      ]
     }).compileComponents();
+    fixture = TestBed.createComponent(Home);
+    component = fixture.componentInstance;
+    httpMock = TestBed.inject(HttpTestingController)
   });
 
   it('should create', async () => {
-    fixture = TestBed.createComponent(Home);
-    component = fixture.componentInstance;
     await fixture.whenStable();
     expect(component).toBeTruthy();
   });
 
   it('should display error message on fail', async () => {
-    TestBed.resetTestingModule()
-    await TestBed.configureTestingModule({
-      imports: [Home],
-      providers: [
-        {provide: PokemonService, useClass: MockPokemonServiceFail}
-      ]
-    }).compileComponents()
-    const fixture = TestBed.createComponent(Home);
-    fixture.componentInstance.ngOnInit()
     await fixture.whenStable();
+
+    fixture.detectChanges();
+    const req = httpMock.expectOne(`${backend_base_url}/pokemons`)
+    req.error(new ProgressEvent("Cannot reach backend"))
+
+    fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('div.container')?.textContent).toContain('Failed');
   });
 
   it('should display squirtle', async () => {
-    TestBed.resetTestingModule()
-    await TestBed.configureTestingModule({
-      imports: [Home],
-      providers: [
-        {provide: PokemonService, useClass: MockPokemonService},
-        provideRouter([]),
-      ]
-    }).compileComponents()
-    const fixture = TestBed.createComponent(Home);
-    fixture.componentInstance.ngOnInit()
     await fixture.whenStable();
+
+    const mockPokemonInfoList: PokemonInfo[] = [
+      { id: 1, name: "squirtle", height: 7, weight: 69 },
+      { id: 2, name: "ivysaur", height: 10, weight: 130 }
+    ]
+
+    fixture.detectChanges();
+    const req = httpMock.expectOne(`${backend_base_url}/pokemons`)
+    req.flush(mockPokemonInfoList)
+
+    fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('div.container')?.textContent).toContain('squirtle');
   });
