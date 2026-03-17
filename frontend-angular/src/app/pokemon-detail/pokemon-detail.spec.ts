@@ -1,21 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Pokemon } from './pokemon';
+import { PokemonDetail } from './pokemon-detail';
 import { provideRouter } from '@angular/router';
 
-describe('Pokemon', () => {
-  let component: Pokemon;
-  let fixture: ComponentFixture<Pokemon>;
+describe('PokemonDetail', () => {
+  let component: PokemonDetail;
+  let fixture: ComponentFixture<PokemonDetail>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Pokemon],
+      imports: [PokemonDetail],
       providers: [provideRouter([])]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Pokemon);
+    fixture = TestBed.createComponent(PokemonDetail);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('pokemonInfo', { name : "Carapuce", id: 7})
     await fixture.whenStable();
   });
 

@@ -1,16 +1,22 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { PokemonInfo } from './pokemon';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { backend_base_url } from './app.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PokemonService {
 
-  backend_base_url = 'http://localhost:8000';
+  private http = inject(HttpClient  )
 
-  async getFullPokemonList(): Promise<PokemonInfo[]> {
-    const data = await fetch(`${this.backend_base_url}/pokemons`)
-    return (await data.json()) ?? [];
+  getFullPokemonList(): Observable<PokemonInfo[]> {
+    return this.http.get<PokemonInfo[]>(`${backend_base_url}/pokemons`)
+  }
+
+  getPokemonById(id: Number): Observable<PokemonInfo> {
+    return this.http.get<PokemonInfo>(`${backend_base_url}/pokemon/${id}`);
   }
 
 }

@@ -1,0 +1,20 @@
+.details {
+    text-align: center;
+}
+
+.name {
+    font-size: xx-large;
+}
+
+.pokemon {
+    margin: auto;
+    font-family: 'PokemonGB';
+    text-align: center;
+    width: 20em;
+}
+
+.error {
+  margin: auto;
+  text-align: center;
+  color: red;
+}
